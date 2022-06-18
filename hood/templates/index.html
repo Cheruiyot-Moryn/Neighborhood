@@ -1,0 +1,49 @@
+{% extends 'base.html'%}
+{% block content %}
+
+<body style=" background-image: url(https://images.unsplash.com/photo-1430285561322-7808604715df?ixid=Mnw);
+background-size: cover;
+background-repeat:  no-repeat;
+font-family: 'Lato', sans-serif;">
+    <div class="container-fluid">
+        <h1 style="text-align:center">PIONEER ESTATE</h1>
+        <P style="text-align: center;">Join any neighbourhood of your liking, we are here to ensure you get all the
+            information you require.By joining , you become part of the neighborhood.</P>
+        <section class="magazine-section">
+            {% for hood in all_hoods %}
+            <div class="col-lg-4">
+                <div style="background-color: rgb(238, 181, 37) ;">
+                    <div class="row" style="padding-top: 1%">
+                        <div class="col-md-12">
+                            <h4 style="font-weight:600;">Hood:{{hood.hood_name}}
+                                </a></4>
+                        </div>
+                    </div>
+                    <div class="row" style="font-size:10pt;">
+                        <div class="col-md-6" style="padding-bottom: 2%;font-weight:600;"> Location:
+                            {{hood.hood_location}}
+                        </div>
+                    </div>
+                    <div class="">
+                        <a href="">
+                            <img src="{{hood.hood_photo.url}}" class="img-responsive" alt="{{image.hood_name}}"
+                                style="width:100%;width:100%">
+                            <div class="overlay">
+                            </div>
+                        </a>
+                    </div>
+                    <div style="padding-top:1%;padding-bottom:1%">
+                        {%if request.user.profile.neighbourhood == hood %}
+                        <a class="btn btn-dark btn-small" href="{% url 'single-hood' hood.id %}">View Hood</a>
+                        <a class="btn btn-danger" href="{% url 'leave-hood' hood.id %}">Leave Hood</a>
+                        {%elif not request.user.profile.neighbourhood%}
+                        <a class="btn btn-dark" href="{%url 'join-hood' hood.id%}">Join Hood</a>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+    </div>
+</body>
+{% endblock %}
