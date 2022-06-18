@@ -1,0 +1,31 @@
+{%include 'base.html'%}
+{% load bootstrap3 %}
+{% block content %}
+
+<body style=" background-image: url('https://images.unsplash.com/photo-1575517111478-7f6afd0973db?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGhvdXNlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
+background-size: cover;
+background-repeat:  no-repeat;
+font-family: 'Lato', sans-serif;">
+  <div class="container" style="text-align: center">
+    {% if results %}
+    <h5 class="text-black"></h5>Found {{ results.count }} Business </h5>
+    <div class="row">
+      {% for neighbourhood in results %}
+      <div class="container">
+        <h5>{{ neighbourhood.name }}</h5>
+          {{ neighbourhood.neighborhood_id }} </i></p>
+        <p class="card-text text-dark">
+          Owner: <p> {{ neighbourhood.business_user| title }}<p>
+        </p>
+        <p class="card-text text-dark">
+          Email <p>{{ neighbourhood.business_email }}</p>
+        </p>
+      </div>
+      {% endfor %}
+      {% else %}
+      <h4 class="text-black text-center">Found 0 Business with the name you searched </h4>
+    </div>
+    {% endif %}
+  </div>
+</body>
+{% endblock %}
