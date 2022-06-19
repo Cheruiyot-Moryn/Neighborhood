@@ -26,49 +26,46 @@ def registration(request):
         form= SignUpForm()
     return render(request, 'registration/registration_form.html', {"form":form}) 
 
-# @login_required(login_url='/accounts/login/')
-# def add_neighbourhood(request):
-#     if request.method == 'POST':
-#         form = NeighbourHoodForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             neighbourhood = form.save(commit=False)
-#             neighbourhood.admin = request.user
-#             neighbourhood.save()
-#             messages.success(
-#                 request, 'You have succesfully created a Neighbourhood.Now proceed and join the Neighbourhood')
-#             return redirect('index')
-#     else:
-#         form = NeighbourHoodForm()
-#     return render(request, 'hood.html', {'form': form})
+@login_required(login_url='/accounts/login/')
+def add_neighbour(request):
+    if request.method == 'POST':
+        form = NeighbourForm(request.POST, request.FILES)
+        if form.is_valid():
+            neighbour = form.save(commit=False)
+            neighbour.admin = request.user
+            neighbour.save()
+            messages.success(
+                request, 'You have succesfully created a Neighbourhood.Now proceed and join the Neighbourhood')
+            return redirect('index')
+    else:
+        form = NeighbourForm()
+    return render(request, 'hood.html', {'form': form})
 
+@login_required(login_url='/accounts/login/')    
+def profile(request):
+    if request.method == 'POST':
 
+        userForm = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(
+            request.POST, request.FILES, instance=request.user)
 
+        if  profile_form.is_valid():
+            profile_form.save()
 
-# @login_required(login_url='/accounts/login/')    
-# def profile(request):
-#     if request.method == 'POST':
+            return redirect('home')
 
-#         userForm = UserUpdateForm(request.POST, instance=request.user)
-#         profile_form = ProfileForm(
-#             request.POST, request.FILES, instance=request.user)
-
-#         if  profile_form.is_valid():
-#             profile_form.save()
-
-#             return redirect('home')
-
-#     else:
+    else:
         
-#         profile_form = ProfileForm(instance=request.user)
-#         user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user)
+        user_form = UserUpdateForm(instance=request.user)
 
-#         params = {
-#             'user_form':user_form,
-#             'profile_form': profile_form
+        params = {
+            'user_form':user_form,
+            'profile_form': profile_form
 
-#         }
+        }
 
-#     return render(request, 'profile.html', params)
+    return render(request, 'profile.html', params)
 
 
 
