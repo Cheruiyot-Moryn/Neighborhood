@@ -111,37 +111,35 @@ def leave_neighbour(request, id):
         request, 'Success! You have succesfully exited this Neighbourhood ')
     return redirect('index')
 
+@login_required(login_url='/accounts/login/')
+def create_post(request, hood_id):
+    neighbour = Neighbour.objects.get(id=hood_id)
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.neighbour = neighbour
+            post.user = request.user.profile
+            post.save()
+            messages.success(
+                    request, 'You have succesfully created a Post')
+            return redirect('single-hood', neighbour.id)
+    else:
+        form = PostForm()
+    return render(request, 'post.html', {'form': form})
 
-# @login_required(login_url='/accounts/login/')
-# def create_post(request, hood_id):
-#     neighbourhood = Neighbourhood.objects.get(id=hood_id)
-#     if request.method == 'POST':
-#         form = PostForm(request.POST)
-#         if form.is_valid():
-#             post = form.save(commit=False)
-#             post.neighbourhood = neighbourhood
-#             post.user = request.user.profile
-#             post.save()
-#             messages.success(
-#                     request, 'You have succesfully created a Post')
-#             return redirect('single-hood', neighbourhood.id)
-#     else:
-#         form = PostForm()
-#     return render(request, 'post.html', {'form': form})
-
-
-# @login_required(login_url='/accounts/login/')
-# def search_business(request):
-#     if request.method == 'GET':
-#         name = request.GET.get("title")
-#         results = Bussiness.objects.filter(name__icontains=name).all()
-#         print(results)
-#         message = f'name'
-#         context = {
-#             'results': results,
-#             'message': message
-#         }
-#         return render(request, 'search_results.html', context)
-#     else:
-#         message = "You haven't searched for any business"
-#     return render(request, "search_results.html")
+@login_required(login_url='/accounts/login/')
+def search_business(request):
+    if request.method == 'GET':
+        name = request.GET.get("title")
+        results = Bussiness.objects.filter(name__icontains=name).all()
+        print(results)
+        message = f'name'
+        context = {
+            'results': results,
+            'message': message
+        }
+        return render(request, 'search.html', context)
+    else:
+        message = "You haven't searched for any business"
+    return render(request, "search.html")
