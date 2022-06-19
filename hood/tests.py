@@ -28,34 +28,31 @@ class ProfileTestClass(TestCase):
    testsaved = Profile.objects.all()
    self.assertTrue(len(testsaved) > 0)
 
-
-
-# class NeighbourhoodTestClass(TestCase):
-# #Set up Method
-#   def setUp(self):
+class NeighbourTestClass(TestCase):
+#Set up Method
+  def setUp(self):
   
-#    self.user = User(username='Amos')
-#    self.user.save()
-#    self.neighbourhood = Neighbourhood(hood_name='Rosya',hood_location='Nairobi',hood_description="hood of hoods",hood_photo='photo.url',admin = self.user)
-#    self.neighbourhood.save_hood()
+   self.user = User(username='')
+   self.user.save()
+   self.neighbour = Neighbour(hood_name='',hood_location='',hood_description="",hood_photo='photo.url',admin = self.user)
+   self.neighbour.save_hood()
 
+  def tearDown(self):
+    Neighbour.objects.all().delete()
 
-#   def tearDown(self):
-#     Neighbourhood.objects.all().delete()
+  def test_instance(self):
+    self.assertTrue(isinstance(self.neighbour,Neighbour))
 
-#   def test_instance(self):
-#     self.assertTrue(isinstance(self.neighbourhood,Neighbourhood))
+  def test_create_neighbor(self):
+    self.neighbour.save_hood()
+    hoods = Neighbour.objects.all()
+    self.assertTrue(len(hoods) > 0)
 
-#   def test_create_neighborhood(self):
-#     self.neighbourhood.save_hood()
-#     hoods = Neighbourhood.objects.all()
-#     self.assertTrue(len(hoods) > 0)
-
-#   def test_delete_neighborhood(self):
-#    self.neighbourhood.save_hood()
-#    self.neighbourhood.delete_hood()
-#    hood = Neighbourhood.objects.all()
-#    self.assertTrue(len(hood) == 0)
+  def test_delete_neighbor(self):
+   self.neighbour.save_hood()
+   self.neighbour.delete_hood()
+   hood = Neighbour.objects.all()
+   self.assertTrue(len(hood) == 0)
 
 
 # class BusinessTestClass(TestCase):
