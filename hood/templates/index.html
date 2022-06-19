@@ -33,7 +33,7 @@ font-family: 'Lato', sans-serif;">
                         </a>
                     </div>
                     <div style="padding-top:1%;padding-bottom:1%">
-                        {%if request.user.profile.neighbourhood == hood %}
+                        {%if request.user.profile.neighbour == hood %}
                         <a class="btn btn-dark btn-small" href="{% url 'single-hood' hood.id %}">View Hood</a>
                         <a class="btn btn-danger" href="{% url 'leave-hood' hood.id %}">Leave Hood</a>
                         {%elif not request.user.profile.neighbourhood%}

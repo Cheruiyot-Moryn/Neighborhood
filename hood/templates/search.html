@@ -10,15 +10,15 @@ font-family: 'Lato', sans-serif;">
     {% if results %}
     <h5 class="text-black"></h5>Found {{ results.count }} Business </h5>
     <div class="row">
-      {% for neighbourhood in results %}
+      {% for neighbour in results %}
       <div class="container">
-        <h5>{{ neighbourhood.name }}</h5>
-          {{ neighbourhood.neighborhood_id }} </i></p>
+        <h5>{{ neighbour.name }}</h5>
+          {{ neighbour.neighbor_id }} </i></p>
         <p class="card-text text-dark">
-          Owner: <p> {{ neighbourhood.business_user| title }}<p>
+          Owner: <p> {{ neighbour.business_user| title }}<p>
         </p>
         <p class="card-text text-dark">
-          Email <p>{{ neighbourhood.business_email }}</p>
+          Email <p>{{ neighbour.business_email }}</p>
         </p>
       </div>
       {% endfor %}
