@@ -79,22 +79,20 @@ class Bussiness(models.Model):
         name = self.name
         self.name = name
     
-
-
-# class Post(models.Model):
+class Post(models.Model):
     
-#     category = models.CharField(max_length=120)
-#     title = models.CharField(max_length=100, null=True)
-#     post = models.TextField()
-#     date_posted = models.DateTimeField(auto_now_add=True)
-#     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='post_owner')
-#     neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE, related_name='neighbourhood_post')
+    category = models.CharField(max_length=120)
+    title = models.CharField(max_length=100, null=True)
+    post = models.TextField()
+    date_posted = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='post_owner')
+    neighbour = models.ForeignKey(Neighbour, on_delete=models.CASCADE, related_name='neighbourhood_post')
 
-#     def __str__(self):
-#         return f'{self.title} Post'    
+    def __str__(self):
+        return f'{self.title} Post'    
     
-#     def save_post(self):
-#         self.save()
+    def save_post(self):
+        self.save()
 
-#     def delete_post(self):
-#         self.delete()
+    def delete_post(self):
+        self.delete()
