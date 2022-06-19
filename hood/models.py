@@ -51,34 +51,33 @@ class Profile(models.Model):
     def update_profile(cls, id):
         Profile.objects.get(user_id=id)
 
+#class Bussiness
+class Bussiness(models.Model):
+     business_user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='owner')
+     name = models.CharField(max_length=120)
+     business_email = models.EmailField(max_length=254)
+     neighbour_id = models.ForeignKey(Neighbour, on_delete=models.CASCADE, related_name='business')
 
-# #class Bussiness
-# class Bussiness(models.Model):
-#      business_user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='owner')
-#      name = models.CharField(max_length=120)
-#      business_email = models.EmailField(max_length=254)
-#      neighbourhood_id = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE, related_name='business')
+     def __str__(self):
+        return f'{self.name}Business'
 
-#      def __str__(self):
-#         return f'{self.name}Business'
+     def save_business(self):
+        self.save()
 
-#      def save_business(self):
-#         self.save()
+     def create_business(self):
+            self.save()
 
-#      def create_business(self):
-#             self.save()
+     def delete_business(self):
+        self.delete()
 
-#      def delete_business(self):
-#         self.delete()
+     @classmethod
+     def find_business(cls,business_id):
+        business = cls.objects.get(id = business_id)
+        return business
 
-#      @classmethod
-#      def find_business(cls,business_id):
-#         business = cls.objects.get(id = business_id)
-#         return business
-
-#      def update_business(self):
-#         name = self.name
-#         self.name = name
+     def update_business(self):
+        name = self.name
+        self.name = name
     
 
 
