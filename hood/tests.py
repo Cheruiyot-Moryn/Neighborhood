@@ -54,23 +54,21 @@ class NeighbourTestClass(TestCase):
    hood = Neighbour.objects.all()
    self.assertTrue(len(hood) == 0)
 
+class BusinessTestClass(TestCase):
+    # Set up method
 
-# class BusinessTestClass(TestCase):
-#     # Set up method
-
-#     def setUp(self):
-
-#         self.user = User(username="Amos", password="Amos24")
-#         self.user.save()
-#         self.neighbourhood = Neighbourhood(
-#             hood_name="Roysa", hood_location="Nairobi", admin=self.user, hood_description='hood of hoods')
-#         self.neighbourhood.save()
-#         self.business = Bussiness (business_email='kipro@gmail.com',name='Avocado business',neighbourhood_id ="23")
+    def setUp(self):
+        self.user = User(username="", password="")
+        self.user.save()
+        self.neighbour = Neighbour(
+            hood_name="", hood_location="", admin=self.user, hood_description='')
+        self.neighbour.save()
+        self.business = Bussiness (business_email='',name='',neighbour_id ="")
     
-#     def test_instance(self):
-#         self.assertTrue(isinstance(self.business,Bussiness))
+    def test_instance(self):
+        self.assertTrue(isinstance(self.business,Bussiness))
 
-#     def test_save_business(self):
-#         self.business.save_business()
-#         biz = Bussiness.objects.all()
-#         self.assertTrue(len(biz) > 0)
+    def test_save_business(self):
+        self.business.save_business()
+        biz = Bussiness.objects.all()
+        self.assertTrue(len(biz) > 0)
