@@ -1,0 +1,53 @@
+{%extends "base.html"%}
+
+{% load bootstrap3 %}
+{% load static%}
+
+{% block content %}
+
+
+<div class="container" style="background-image: url('https://images.unsplash.com/photo-1523217582562-09d0def993a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTl8fGhvbWV8ZW58MHx8MHx8&auto=format&fit=crop&w=700&q=60');
+background-size: cover;
+background-repeat:  no-repeat;
+font-family: 'Lato', sans-serif;
+        margin-top: 200px;
+        color:black;
+        border:none;
+        font-style: italic;">
+
+            <div class="panel-body">
+              {% if profile_info.photo %}
+             {% else %}
+
+             {% endif %}
+            </div>
+            
+           
+            <div class="panel-footer">
+              <p style="color: black">
+
+                username :   {{ user.username }}
+
+                </p>
+                  <h4>
+
+                    {{ profile_info.bio }}
+
+                  </h4>
+
+            </div>
+            <div class="panel-footer">
+                  <p style="color: black">
+
+                  Logged into PIONEER ESTATE  
+
+                  </p>
+
+            </div>
+        </div>
+
+    </div>
+  <hr>
+  
+</div>
+{% endblock %}
