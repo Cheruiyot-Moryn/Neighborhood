@@ -1,0 +1,109 @@
+{%include 'base.html'%}
+
+{% load bootstrap3 %}
+{% load static %}
+{% block content %}
+
+<body style=" background-image: url('https://images.unsplash.com/photo-1576208861541-335784ba66c9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bmVpZ2hib3Job29kfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
+background-size: cover;
+background-repeat:  no-repeat;
+font-family: 'Lato', sans-serif;">>
+  <div class="container-fluid">
+    <div class="row mt" style="margin-left: 350px;">
+      <div class="col-md-6 mt-2">
+        <div class="card p-2">
+          <h5 class="mt-2 mb-3 p-2"><i class="fas fa-map-marker-alt green-text"></i> {{ neighbourhood.name }}
+            {{neighbourhood.location}}</h5>
+          <div class="view overlay rounded z-depth-1-half p-1 bg-white">
+            <img src="{{ neighbourhood.hood_photo.url }}" class="card-img-top" alt="{{ hood.name }}" height="300px">
+            <a>
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+          <div class="card-body">
+            <h6 class="card-header text-center text-black">
+              <span><strong>{{neighbourhood.members.count}}</strong>
+                Member{{neighbourhood.occupants_count | pluralize}}</span>
+            </h6>
+          </div>
+          <p class="card-text">
+            <span class="text-dark">Police Station</span><br>
+            <span class="text-dark">Contact: 999</span>
+            <strong>{{neighbourhood.police_number}}</strong> <br>
+            <span class="text-dark">Hospital Department</span><br>
+            <span class="text-dark">Contact: 020 2726300</span>
+            <strong>{{neighbourhood.health_number}}</strong>
+          </p>
+
+          <a class="btn btn-sm btn-warning mb-4 mr-4" href="{% url 'post' neighbourhood.id %}">New Post</a>
+          <h5 class="mb-3 p-2">
+            <i class="fas fa-registered green-text"></i>
+            <b class="text-dark">New Members</b>
+          </h5>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="container-fluid text-center">
+    <div class="container pt-3">
+      <div class="row">
+        <div class="col-md-12">
+          <a href="" class="btn btn-sm btn-warning mb-4 mr-4" data-toggle="modal" data-target="#Business">Add
+            Business</a>
+          <a class="btn btn-sm btn-warning mb-4" href="/">Home</a>
+          {% if neighbourhood.admin == user.profile %}
+          {% endif %}
+
+          <div>
+              <h5 style="color:goldenrod;">Businesses</h5>
+              <div class="row">
+                {% for busines in business %}
+                <div class="col-md-4">
+                  <div class="card mb-4">
+                    <div class="card-body">
+                      <h6 class="card-title text-dark">{{busines.business_name}}Email:
+                        <span class="text-muted" style="font-size: 14px;">{{busines.business_email}}</span>
+                      </h6>
+                      <p class="card-text text-dark">Business name:{{ busines.name }}</p>
+                      <p class="card-text">
+                        Owner: <small class="text-dark">
+                           {{user.username}}</small>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="Business" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"style="font-family: 'Lato', sans-serif; background-image: url(https://www.istockphoto.com/photo/lake-house-gm639451404-115252759);
+          background-size: cover;
+          background-repeat:  no-repeat;">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title text-white"  style="text-align: center">
+                    New Business
+                  </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"> <i class="fa fa-times-circle text-warning"></i></span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form action="" method="post">
+                    {% csrf_token%}
+                    {% bootstrap_form form %}
+                    <button type="submit" class="btn btn-md btn-warning">Add</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+{% endblock %}
