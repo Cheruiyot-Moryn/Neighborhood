@@ -6,7 +6,7 @@ from django.dispatch import receiver
 
 # Create your models here.
 
-class Neighbour(models.Model):
+class Neighbourhood(models.Model):
     hood_name = models.CharField(max_length=200)
     hood_location = models.CharField(max_length=200)
     hood_description = models.TextField(max_length=500, blank=True)
@@ -35,7 +35,7 @@ class Profile(models.Model):
     email = models.CharField(max_length=30, blank=True)
     #profile_pic = CloudinaryField('profile')
     bio = models.TextField(max_length=500, blank=True)
-    neighbour = models.ForeignKey(Neighbour, on_delete=models.CASCADE, blank=True, null=True)
+    neighbour = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE, blank=True, null=True)
     
     def __str__(self):
         return self.user.username
@@ -56,7 +56,7 @@ class Bussiness(models.Model):
      business_user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='owner')
      name = models.CharField(max_length=120)
      business_email = models.EmailField(max_length=254)
-     neighbour_id = models.ForeignKey(Neighbour, on_delete=models.CASCADE, related_name='business')
+     neighbour_id = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE, related_name='business')
 
      def __str__(self):
         return f'{self.name}Business'
@@ -86,7 +86,7 @@ class Post(models.Model):
     post = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='post_owner')
-    neighbour = models.ForeignKey(Neighbour, on_delete=models.CASCADE, related_name='neighbourhood_post')
+    neighbour = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE, related_name='neighbourhood_post')
 
     def __str__(self):
         return f'{self.title} Post'    

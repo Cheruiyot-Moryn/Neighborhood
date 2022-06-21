@@ -1,6 +1,5 @@
-import neighbor
-from .models import Bussiness, Neighbour, Post, Profile
-from .form import BusinessForm, NeighbourForm, PostForm, ProfileForm,  SignUpForm, UserUpdateForm
+from hood.models import Bussiness, Neighbourhood, Post, Profile
+from hood.form import BusinessForm, NeighbourHoodForm, PostForm, ProfileForm,  SignUpForm, UserUpdateForm
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -8,10 +7,9 @@ from django.contrib import messages
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 # Create your views here.
 def index(request):
-    all_hoods = Neighbour.objects.all()
+    all_hoods = Neighbourhood.objects.all()
     all_hoods = all_hoods[::-1]
     return render(request, 'index.html',{'all_hoods': all_hoods,'all_hoods':all_hoods})
-
 
 def registration(request):
     if request.method=="POST":
@@ -28,18 +26,18 @@ def registration(request):
     return render(request, 'registration/registration_form.html', {"form":form}) 
 
 @login_required(login_url='/accounts/login/')
-def add_neighbour(request):
+def add_neighbourhood(request):
     if request.method == 'POST':
-        form = NeighbourForm(request.POST, request.FILES)
+        form = NeighbourHoodForm(request.POST, request.FILES)
         if form.is_valid():
-            neighbour = form.save(commit=False)
-            neighbour.admin = request.user
-            neighbour.save()
+            neighbourhood = form.save(commit=False)
+            neighbourhood.admin = request.user
+            neighbourhood.save()
             messages.success(
                 request, 'You have succesfully created a Neighbourhood.Now proceed and join the Neighbourhood')
             return redirect('index')
     else:
-        form = NeighbourForm()
+        form = NeighbourHoodForm()
     return render(request, 'hood.html', {'form': form})
 
 @login_required(login_url='/accounts/login/')    
@@ -64,37 +62,38 @@ def profile(request):
             'profile_form': profile_form
 
         }
-
     return render(request, 'profile.html', params)
 
 @login_required(login_url='/accounts/login/')
-def join_neighbour(request, id):
+def join_neighbourhood(request, id):
     profile= Profile.objects.get_or_create(user=request.user)
-    neighbour = get_object_or_404(Neighbour, id=id)
-    request.user.profile.neighbour = neighbour
+    neighbourhood = get_object_or_404(Neighbourhood, id=id)
+    request.user.profile.neighbourhood = neighbourhood
     request.user.profile.save()
     messages.success(
-        request, 'Success! You have succesfully joined this Neighbourhood ')
+        request, 'You have succesfully joined this Neighbourhood ')
     return redirect('index')
 
+
+
 @login_required(login_url='/accounts/login/')
-def single_neighbour(request, hood_id):
-    neighbour = Neighbour.objects.get(id=hood_id)
-    business = Bussiness.objects.filter(neighbour_id=hood_id)
-    posts = Post.objects.filter(neighbour=neighbour)
+def single_neighbourhood(request, hood_id):
+    neighbourhood = Neighbourhood.objects.get(id=hood_id)
+    business = Bussiness.objects.filter(neighbourhood_id=hood_id)
+    posts = Post.objects.filter(neighbourhood=neighbourhood)
     posts = posts[::-1]
     if request.method == 'POST':
         form = BusinessForm(request.POST)
         if form.is_valid():
             b_form = form.save(commit=False)
-            b_form.neighbour = neighbor
+            b_form.neighbourhood = neighbourhood
             b_form.user = request.user.profile
             b_form.save()
             return redirect('single-hood',hood_id)
     else:
         form = BusinessForm()
     context = {
-        'neighbour': neighbour,
+        'neighbourhood': neighbourhood,
         'form': form,
         'posts': posts,
         'business': business,
@@ -103,30 +102,32 @@ def single_neighbour(request, hood_id):
     return render(request, 'single_hood.html', context)
 
 @login_required(login_url='/accounts/login/')
-def leave_neighbour(request, id):
-    neighbour = get_object_or_404(Neighbour, id=id)
-    request.user.profile.neighbour = None
+def leave_neighbourhood(request, id):
+    neighbourhood = get_object_or_404(Neighbourhood, id=id)
+    request.user.profile.neighbourhood = None
     request.user.profile.save()
     messages.success(
         request, 'Success! You have succesfully exited this Neighbourhood ')
     return redirect('index')
 
+
 @login_required(login_url='/accounts/login/')
 def create_post(request, hood_id):
-    neighbour = Neighbour.objects.get(id=hood_id)
+    neighbourhood = Neighbourhood.objects.get(id=hood_id)
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.neighbour = neighbour
+            post.neighbourhood = neighbourhood
             post.user = request.user.profile
             post.save()
             messages.success(
                     request, 'You have succesfully created a Post')
-            return redirect('single-hood', neighbour.id)
+            return redirect('single-hood', neighbourhood.id)
     else:
         form = PostForm()
     return render(request, 'post.html', {'form': form})
+
 
 @login_required(login_url='/accounts/login/')
 def search_business(request):
