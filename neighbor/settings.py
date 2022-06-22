@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'hood',
     'cloudinary',
-    'bootstrap5',
+    'bootstrap4',
     'registration',
 ]
 
